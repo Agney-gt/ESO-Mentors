@@ -73,7 +73,7 @@ export default function LoginPage() {
   const handleOAuthLogin = async () => {
     try {
    
-      await signIn("google", { callbackUrl: "/" });
+      await signIn("google", { callbackUrl: "/dash" });
     } catch (error) {
       console.error("Error signing in:", error);
     } finally {
