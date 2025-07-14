@@ -23,7 +23,7 @@ export default async function PendingMatchesPage() {
 
   // Fetch pending matches
   const { data: matches, error: matchError } = await supabase
-    .from("Matches")
+    .from("ESO_matches")
     .select("*")
     .eq("status", "pending");
 
