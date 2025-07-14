@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button";
 export default function CustomizePlatform() {
   return (
     <Card className="bg-white shadow rounded-lg overflow-hidden">
-      <CardContent className="p-5 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-800">Platform Customization</h3>
-        <p className="text-sm text-gray-500">
-          Customize your mentor matching platform&apos;s appearance and functionality
-        </p>
-      </CardContent>
+      
 
       <CardContent className="p-5">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
