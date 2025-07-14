@@ -47,21 +47,19 @@ export default function LoginPage() {
   const [isPending, setIsPending] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+
     setIsPending(true);
     try {
-      const res = await fetch("/api/login/password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const res = await signIn("credentials", {
+        username: data.username,
+        password: data.password,
+        redirect: false, // Set to true if you want auto-navigation
       });
-
-      if (res.ok) {
-        router.push("/");
+  
+      if (res?.ok) {
+        router.push("/dash"); // or your desired page
       } else {
-        const result = await res.json();
-        alert(result.message || "Login failed");
+        alert("Invalid email or password");
       }
     } catch (err) {
       console.error("Login error:", err);

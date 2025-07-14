@@ -2,7 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { createClient } from "@supabase/supabase-js";
 //import { BlobServiceClient } from "@azure/storage-blob";
-
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 // Initialize Supabase Client
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,7 +26,44 @@ export const authOptions: NextAuthOptions = {
         }
       }
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials?.password) {
+          console.log("here")
+         return null;
+        }
+        console.log("here:",credentials.username,credentials.password)
+
+        const { data: userRecord } = await supabase
+          .from("ESO")
+          .select("user_id, username, password_hash")
+          .eq("username", credentials.username)
+          .single();
+        console.log("userRecord:",userRecord)
+        if (!userRecord) return null;
+
+        const passwordMatch = await bcrypt.compare(
+          credentials.password,
+          userRecord.password_hash
+        );
+
+        if (!passwordMatch) return null;
+
+        return {
+          id: userRecord.user_id,
+          email: userRecord.user_id,
+          name: userRecord.username || "Manual User",
+        };
+      },
+    }),
   ],
+
+   
   callbacks: {
     async signIn({ user }) {
       if (user && user.email) {
