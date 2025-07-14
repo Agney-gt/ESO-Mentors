@@ -34,17 +34,17 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-          console.log("here")
+    
          return null;
         }
-        console.log("here:",credentials.username,credentials.password)
+
 
         const { data: userRecord } = await supabase
           .from("ESO")
           .select("user_id, username, password_hash")
           .eq("username", credentials.username)
           .single();
-        console.log("userRecord:",userRecord)
+
         if (!userRecord) return null;
 
         const passwordMatch = await bcrypt.compare(
