@@ -57,7 +57,7 @@ export default function RegisterForm() {
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     setIsPending(true);
     try {
-      // TODO: Replace with your registration API
+   
       const res = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify(data),

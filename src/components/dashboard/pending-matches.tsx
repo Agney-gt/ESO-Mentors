@@ -9,17 +9,23 @@ import { getInitials } from "@/lib/utils";
 import { matchSchema, mentorSchema, menteeSchema } from "@/lib/schema";
 import { z } from "zod";
 
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  throw new Error("Missing Supabase environment variables");
+}
 const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! // Use Service Role for admin access
-  );
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);  
 
 export default async function PendingMatchesPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user?.email) {
-    return <div className="p-6 text-center text-red-500">Unauthorized</div>;
+  const isUnauthenticated = !session?.user?.email;
+
+  if (isUnauthenticated) {
+    return <div>Unauthorized</div>;
   }
+
 
   // Fetch pending matches
   const { data: matches, error: matchError } = await supabase

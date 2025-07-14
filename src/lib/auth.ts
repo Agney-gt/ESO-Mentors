@@ -5,9 +5,12 @@ import { createClient } from "@supabase/supabase-js";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 // Initialize Supabase Client
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  throw new Error("Missing Supabase environment variables");
+}
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! // Use Service Role for admin access
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 // Azure Storage Configuration
@@ -66,7 +69,7 @@ export const authOptions: NextAuthOptions = {
    
   callbacks: {
     async signIn({ user }) {
-      if (user && user.email) {
+      if ( user?.email) {
         try {
           // 🔹 Initialize mindmap usage record for new users
           const { data: existingUsage } = await supabase
