@@ -1,0 +1,69 @@
+import { z } from "zod";
+
+// Match status enum from your Drizzle schema
+export const matchStatusEnum = z.enum(["pending", "approved", "rejected"]);
+export const formResponsesSchema = z.record(
+    z.string(), // Specify the key schema as strings
+    z.union([
+      z.string(),
+      z.array(z.string()),
+      z.number(),
+      z.boolean(),
+      z.null()
+    ])
+  );
+export const matchSchema = z.object({
+  id: z.number().int().positive(), // ✅ required when reading from DB
+  organizationId: z.number().int().positive(),
+  mentorId: z.number().int().positive(),
+  menteeId: z.number().int().positive(),
+  matchScore: z.number().int().min(0).max(100).optional(),
+  matchReasons: z.array(z.string()).optional(), // assuming array of reasons
+  status: matchStatusEnum.optional(), // default is 'pending' if not passed
+  adminId: z.number().int().positive().optional(),
+  introEmailSent: z.boolean().optional(),
+  followUpEmailSent: z.boolean().optional(),
+  sessionScheduled: z.boolean().optional(),
+});
+export const mentorSchema = z.object({
+    userId: z.number().int().positive().optional(),
+    organizationId: z.number().int().positive(),
+    name: z.string().min(1),
+    email: z.string().email(),
+    title: z.string().optional(),
+    organization: z.string().optional(),
+    bio: z.string().optional(),
+    industry: z.string().optional(),
+    expertise: z.array(z.string()).optional(),
+    availability: z.array(z.string()).optional(),
+    bookingLink: z.string().url().optional(),
+    preferredMeetingFormat: z.string().optional(),
+    yearsOfExperience: z.string().optional(),
+    active: z.boolean().optional(),
+    approved: z.boolean().optional(),
+    welcomeEmailSent: z.boolean().optional(),
+    profileCompleted: z.boolean().optional(),
+    formResponses: formResponsesSchema.optional(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
+  });
+  export const menteeSchema = z.object({
+    userId: z.number().int().positive().optional(),
+    organizationId: z.number().int().positive(),
+    name: z.string().min(1),
+    email: z.string().email(),
+    background: z.string().optional(),
+    goals: z.string().optional(),
+    industry: z.string().optional(),
+    interests: z.array(z.string()).optional(),
+    availability: z.array(z.string()).optional(),
+    preferredMeetingFormat: z.string().optional(),
+    active: z.boolean().optional(),
+    approved: z.boolean().optional(),
+    welcomeEmailSent: z.boolean().optional(),
+    profileCompleted: z.boolean().optional(),
+    formResponses: formResponsesSchema.optional(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
+  });
+    

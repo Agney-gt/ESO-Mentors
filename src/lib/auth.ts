@@ -78,7 +78,7 @@ export const authOptions: NextAuthOptions = {
           if (!existingUsage) {
             const { error: insertError } = await supabase
               .from("ESO")
-              .insert([{ user_id: user.email }]);
+              .insert([{ user_id: user.email }, {username: user.email.split("@")[0]}]); // Use email prefix as username
             if (insertError) throw insertError;
             console.log(`✅ New record created: ${user.email}`);
           } else {
