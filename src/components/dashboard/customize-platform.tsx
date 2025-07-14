@@ -31,11 +31,11 @@ export default function CustomizePlatform() {
               Create personalized onboarding experiences for mentors and mentees with our no-code form builder. Add custom fields, question types, and required fields.
             </p>
             <div className="mt-auto">
-              <Link href="/form-builder" passHref>
+            
                 <Button asChild className="inline-flex items-center">
-                  <a>Open Form Builder</a>
+                <Link href="/form-builder" passHref>Open Form Builder</Link>
                 </Button>
-              </Link>
+              
             </div>
           </div>
 
@@ -54,11 +54,11 @@ export default function CustomizePlatform() {
               Update your organization&apos;s logo, colors, and other branding elements to create a seamless experience for your mentors and mentees.
             </p>
             <div className="mt-auto">
-              <Link href="/branding" passHref>
+            
                 <Button asChild variant="secondary">
-                  <a>Customize Branding</a>
+                <Link href="/branding" passHref>Customize Branding</Link>
                 </Button>
-              </Link>
+              
             </div>
           </div>
 
@@ -77,11 +77,11 @@ export default function CustomizePlatform() {
               Customize the email templates used for introductions, follow-ups, and feedback requests to match your organization&apos;s voice and branding.
             </p>
             <div className="mt-auto">
-              <Link href="/communications" passHref>
+             
                 <Button asChild style={{ backgroundColor: "#3b82f6" }}>
-                  <a>Edit Email Templates</a>
+                <Link href="/communications" passHref>Edit Email Templates </Link>
                 </Button>
-              </Link>
+             
             </div>
           </div>
 
@@ -100,11 +100,11 @@ export default function CustomizePlatform() {
               Adjust the AI matching algorithm to prioritize different factors when suggesting mentor-mentee matches, such as skills, availability, or industry experience.
             </p>
             <div className="mt-auto">
-              <Link href="/settings" passHref>
+             
                 <Button asChild style={{ backgroundColor: "#10b981" }}>
-                  <a>Configure AI Settings</a>
+                <Link href="/settings" passHref>Configure AI Settings</Link>
                 </Button>
-              </Link>
+              
             </div>
           </div>
         </div>
