@@ -16,7 +16,7 @@ export default async function FormBuilderPage() {
     );
   }
 
-  const res = await fetch(`http://localhost:3000/api/form-templates`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL || "https://localhost:300"}/api/form-templates`, {
     cache: "no-store", // avoid stale data
     headers: {
       Cookie: "", // in case you pass auth cookies
