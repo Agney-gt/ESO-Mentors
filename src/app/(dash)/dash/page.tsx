@@ -1,9 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // Adjust this path if needed
 import { redirect } from "next/navigation";
-import SignOutButton from "@/components/signOut";
-
-
 import KeyMetrics from "@/components/dashboard/key-metrics";
 import ActivityChart from "@/components/dashboard/activity-chart";
 import RecentActivity from "@/components/dashboard/recent-activity";
@@ -11,9 +8,6 @@ import PendingMatches from "@/components/dashboard/pending-matches";
 import CustomizePlatform from "@/components/dashboard/customize-platform";
 //import InviteUsersModal from "@/components/modals/invite-users-modal";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { UserPlus, ChevronDown, PlusCircle } from "lucide-react";
 
 export default async function MindmapPage() {
   const session = await getServerSession(authOptions);
@@ -24,12 +18,12 @@ export default async function MindmapPage() {
 
   return (
     <>
- 
+        <div className='mt-16 mb-16'>
         <title>Dashboard | Mentor Match Platform</title>
         <meta name="description" content="Mentor matching platform dashboard showing key metrics and pending matches" />
 
 
-      {/* Page header */}
+      {/* Page header
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
@@ -65,7 +59,7 @@ export default async function MindmapPage() {
 </DropdownMenu>
 
         </div>
-      </div>
+      </div> */}
 
       {/* Key Metrics */}
       <KeyMetrics />
@@ -106,7 +100,7 @@ export default async function MindmapPage() {
       </div>
 
       {/* Invite Modal - hook this up if you convert to server components */}
-      {/* <InviteUsersModal isOpen={false} onClose={() => {}} /> */}
+      {/* <InviteUsersModal isOpen={false} onClose={() => {}} /> */}</div>
     </>
   );
 

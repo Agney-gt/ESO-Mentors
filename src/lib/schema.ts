@@ -47,7 +47,7 @@ export const mentorSchema = z.object({
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
   });
-  export const menteeSchema = z.object({
+export const menteeSchema = z.object({
     userId: z.number().int().positive().optional(),
     organizationId: z.number().int().positive(),
     name: z.string().min(1),
@@ -66,4 +66,26 @@ export const mentorSchema = z.object({
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
   });
-    
+export const formFieldSchema = z.object({
+    id: z.string(),
+    type: z.enum(['text', 'textarea', 'select', 'multiselect', 'checkbox', 'radio', 'email', 'number']),
+    label: z.string(),
+    placeholder: z.string().optional(),
+    required: z.boolean().default(false),
+    options: z.array(z.object({
+      value: z.string(),
+      label: z.string(),
+    })).optional(),
+    defaultValue: z.union([z.string(), z.array(z.string()), z.boolean(), z.number()]).optional(),
+  });
+
+export const formTemplateSchema = z.object({
+    id: z.number(),
+    organizationId: z.number(),
+    name: z.string(),
+    type: z.enum(["mentor", "mentee"]),
+    fields: z.array(formFieldSchema),
+    createdAt: z.string().or(z.date()).optional(), // Accepts both for flexibility
+    updatedAt: z.string().or(z.date()).optional(),
+  });
+  
