@@ -19,7 +19,7 @@ export function PageHeader() {
 
 
 
-      <div className="mt-4 md:mt-0 flex items-center space-x-4">
+      <div className="absolute top-2 right-0 mt-4 mr-2 md:mt-0 flex items-center space-x-4">
         <Button variant="ghost" size="icon">
           <Bell className="h-5 w-5" />
         </Button>

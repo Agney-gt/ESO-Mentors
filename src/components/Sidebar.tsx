@@ -1,11 +1,11 @@
 export function Sidebar() {
     return (
-      <aside className="w-64 h-full bg-white border-r py-6 z-50">
-        <div className="text-xl font-semibold text-blue-600 px-4 mb-2">
+      <aside className="w-64 h-full bg-white border-r py-4  z-50">
+        <div className="text-xl font-semibold text-blue-600 px-4 mb-2 ">
           Demo Organization
         </div>
-        <div className="border-b border-gray-200 -ml-4" />
-        <nav className="px-4 mt-2 space-y-4 text-sm text-gray-700">
+        <div className="absolute left-0 right-0 top-[59px] border-b-[3px]  border-gray-200" />
+        <nav className="px-4 mt-6 space-y-4 text-sm text-gray-700">
           <div>
             <h4 className="uppercase text-xs text-gray-400 mb-2">Main</h4>
             <ul className="space-y-2">
