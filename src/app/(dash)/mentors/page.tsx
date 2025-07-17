@@ -28,7 +28,7 @@ export default async function MentorsPage() {
   .from("ESO_mentors")
   .select("*") as { data: Mentor[]; };
 
-  console.log(mentors)
+  
 
   return (
     <div className="px-6 py-8">

@@ -26,8 +26,8 @@ export const matchSchema = z.object({
   sessionScheduled: z.boolean().optional(),
 });
 export const mentorSchema = z.object({
-    userId: z.number().int().positive().optional(),
-    organizationId: z.number().int().positive(),
+    user_id: z.number().int().positive().optional(),
+    organization_id: z.number().int().positive(),
     name: z.string().min(1),
     email: z.string().email(),
     title: z.string().optional(),
