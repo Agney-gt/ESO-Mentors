@@ -37,12 +37,12 @@ export default function MentorTable({ mentors }: { mentors: z.infer<typeof mento
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Organization</TableHead>
-            <TableHead>Industry</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead>Organization</TableHead>
+      <TableHead>Industry</TableHead>
+          <TableHead>Status</TableHead> 
+        <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -52,6 +52,9 @@ export default function MentorTable({ mentors }: { mentors: z.infer<typeof mento
               <TableCell>{mentor.email}</TableCell>
               <TableCell>{mentor.organization}</TableCell>
               <TableCell>{mentor.industry}</TableCell>
+
+              
+
               <TableCell>
                 {mentor.approved ? (
                   <span className="text-green-600">Approved</span>
