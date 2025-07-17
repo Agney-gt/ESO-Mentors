@@ -5,10 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/lib/utils";
-import { matchSchema, mentorSchema, menteeSchema } from "@/lib/schema";
-import { z } from "zod";
-
+// import { getInitials } from "@/lib/utils";
+// import { matchSchema, mentorSchema, menteeSchema } from "@/lib/schema";
+//import { z } from "zod";
+//import { formResponsesSchema } from "@/lib/schema";
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   throw new Error("Missing Supabase environment variables");
 }
@@ -25,26 +25,44 @@ export default async function PendingMatchesPage() {
   if (isUnauthenticated) {
     return <div>Unauthorized</div>;
   }
+  
+// Step 1: Fetch matches, mentors, and mentees
+const { data: matches, error: matchError } = await supabase
+  .from("ESO_matches")
+  .select("*")
+  .eq("status", "pending");
 
+const { data: mentors, error: mentorError } = await supabase
+  .from("ESO_mentors")
+  .select("*");
 
-  // Fetch pending matches
-  const { data: matches, error: matchError } = await supabase
-    .from("ESO_matches")
-    .select("*")
-    .eq("status", "pending");
+const { data: mentees, error: menteeError } = await supabase
+  .from("ESO_mentees")
+  .select("*");
 
-  if (matchError) {
-    return <div className="p-6 text-center text-red-500">Error loading matches</div>;
-  }
+// Step 2: Handle any errors
+if (matchError || mentorError || menteeError) {
+  console.error("Fetch error:", { matchError, mentorError, menteeError });
+  return;
+}
 
-  if (!matches || matches.length === 0) {
-    return (
-      <Card className="p-6 text-center">
-        <CardTitle>No pending matches</CardTitle>
-        <p className="text-sm text-gray-500">All matches have been reviewed.</p>
-      </Card>
-    );
-  }
+// Step 3: Create lookup maps for fast access
+const mentorMap = new Map(mentors.map(m => [m.id, m]));
+const menteeMap = new Map(mentees.map(m => [m.id, m]));
+
+  // Step 4: Enrich each match with mentor and mentee info
+  const enrichedMatches = matches.map(match => {
+  const mentor = mentorMap.get(match.mentor_id) || null;
+  const mentee = menteeMap.get(match.mentee_id) || null;
+  
+  return {
+    ...match,
+    mentor, // full mentor object
+    mentee, // full mentee object
+  };
+});
+console.log("✅ Enriched Matches:", enrichedMatches);
+
 
   return (
     <Card className="bg-white shadow rounded-lg overflow-hidden">
@@ -57,55 +75,80 @@ export default async function PendingMatchesPage() {
         </p>
       </CardHeader>
       <CardContent>
-        {await Promise.all(
-          matches.map(async (match: z.infer<typeof matchSchema>) => {
-            const [menteeRes, mentorRes] = await Promise.all([
-              supabase.from("Mentees").select("*").eq("id", match.menteeId).single(),
-              supabase.from("Mentors").select("*").eq("id", match.mentorId).single()
-            ]);
+      {enrichedMatches?.map((match) => {
+  return (
+    <div
+      key={match.id}
+      className="mb-6 border rounded-xl p-5 shadow-sm bg-white hover:shadow-md transition"
+    >
+      <div className="flex justify-between items-start">
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-4">
+            {/* Avatar with fallback initials */}
+            <Avatar>
+              <AvatarImage src="" alt={`Mentor ${match.mentor_id}`} />
+              <AvatarFallback>👤</AvatarFallback>
+            </Avatar>
 
-            const mentee = menteeRes.data as z.infer<typeof menteeSchema>;
-            const mentor = mentorRes.data as z.infer<typeof mentorSchema>;
-
-            return (
-              <div key={match.id} className="mb-6 border-b pb-4">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-700">
-                      Mentee: <span className="text-primary">{mentee?.name}</span>
-                    </h3>
-                    <p className="text-xs text-gray-500">
-                      Application submitted:{" "}
-                      {mentee?.createdAt ? new Date(mentee.createdAt).toLocaleDateString() : "N/A"}
-                    </p>
-                    <div className="mt-3">
-                      <h4 className="text-sm font-semibold text-gray-600">AI-Suggested Mentor:</h4>
-                      <div className="flex items-center gap-3 mt-2">
-                        <Avatar>
-                          <AvatarImage src="" alt={mentor?.name} />
-                          <AvatarFallback>{getInitials(mentor?.name || "")}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium">{mentor?.name}</div>
-                          <div className="text-xs text-gray-500">
-                            {mentor?.title}, {mentor?.organization}
-                          </div>
-                        </div>
-                        <Badge className="ml-auto bg-indigo-100 text-indigo-600">
-                          {match.matchScore}% match
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-
-                  <form action={`/api/matches/${match.id}/approve`} method="POST">
-                    <Button type="submit" className="mt-2">Approve</Button>
-                  </form>
-                </div>
+            <div>
+              <div className="text-sm font-semibold text-gray-700">
+               Name: <span className="text-primary">{match.mentor.name}</span>
               </div>
-            );
-          })
-        )}
+              <div className="text-xs text-gray-500">
+                Created: {new Date(match.created_at).toLocaleString()}
+              </div>
+            </div>
+
+            {/* Match Score Badge */}
+            <Badge className="ml-auto bg-green-100 text-green-700">
+              {match.match_score}% Match
+            </Badge>
+          </div>
+
+          {/* Match Metadata */}
+          <div className="text-xs text-gray-600 space-y-1">
+            <div><strong>Mentee ID:</strong> {match.mentee_id}</div>
+            <div><strong>Mentor ID:</strong> {match.mentor_id}</div>
+            <div><strong>Industry</strong> {match.mentor.industry}</div>
+            <div>
+            <strong>Background/Company:</strong>{" "}
+            {match.mentor?.title ? match.mentor.title : match.mentee?.background}
+          </div>
+            <div><strong>Status:</strong> {match.status}</div>
+            <div><strong>Session Scheduled:</strong> {match.session_scheduled ? "Yes" : "No"}</div>
+            <div><strong>Intro Email Sent:</strong> {match.intro_email_sent ? "Yes" : "No"}</div>
+            <div><strong>Follow-up Email Sent:</strong> {match.follow_up_email_sent ? "Yes" : "No"}</div>
+            <div><strong>Updated:</strong> {new Date(match.updated_at).toLocaleString()}</div>
+          </div>
+
+          {/* Match Reasons */}
+          {match.match_reasons?.length > 0 && (
+            <div className="mt-2">
+              <div className="text-xs font-medium text-gray-500 mb-1">Match Reasons:</div>
+              <div className="flex flex-wrap gap-2">
+              {(match.match_reasons as string[]).map((reason, idx) => (
+                    <Badge
+                      key={idx}
+                      className="bg-blue-100 text-blue-700 border border-blue-200"
+                    >
+                      {reason}
+                    </Badge>
+                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+        {/* Approve Button */}
+        <form action={`/api/matches/approve`} method="POST">
+          <Button type="submit" className="mt-2">Approve</Button>
+        </form>
+      </div>
+    </div>
+  );
+})}
+
+
       </CardContent>
     </Card>
   );
