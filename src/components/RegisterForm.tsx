@@ -67,7 +67,7 @@ export default function RegisterForm() {
         await signIn("credentials", {
           username: data.username,
           password: data.password,
-          callbackUrl: "/dash",
+          callbackUrl: "/onboarding",
         });
       } else {
         alert("Registration failed");
