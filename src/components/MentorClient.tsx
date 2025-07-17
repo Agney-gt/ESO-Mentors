@@ -1,28 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { mentorSchema, formTemplateSchema } from "@/lib/schema";
-import MentorDetailDialog from "@/components/invite-users";
+import { mentorSchema } from "@/lib/schema";
+//import MentorDetailDialog from "@/components/invite-users";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { z } from "zod"
-type Props = {
-  mentors: z.infer<typeof mentorSchema[]>;
-  formTemplateSchema?: z.infer<typeof formTemplateSchema>;
-};
 
-export default function MentorTable({ mentors, formTemplateSchema }: Props) {
+
+
+export default function MentorTable({ mentors }: { mentors: z.infer<typeof mentorSchema>[] })
+{
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedMentor, setSelectedMentor] = useState<z.infer<typeof mentorSchema> | null>(null);
-
-  const filteredMentors = mentors.filter((mentor) =>
-    mentor.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [, setSelectedMentor] = useState<z.infer<typeof mentorSchema> | null>(null);
+  // const filteredMentors = [mentors].filter((mentor : z.infer<typeof mentorSchema>) =>
+  //   mentor.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  // console.log(filteredMentors)
 
   return (
     <>
-      <div className="mb-4">
+      <div className="space-y-6 gap-6 mb-4">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           <Input
@@ -32,8 +31,9 @@ export default function MentorTable({ mentors, formTemplateSchema }: Props) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-      </div>
-
+      
+      
+      <div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -46,8 +46,8 @@ export default function MentorTable({ mentors, formTemplateSchema }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredMentors.map((mentor) => (
-            <TableRow key={mentor.id}>
+          {mentors.map((mentor) => (
+            <TableRow key={mentor.userId}>
               <TableCell>{mentor.name}</TableCell>
               <TableCell>{mentor.email}</TableCell>
               <TableCell>{mentor.organization}</TableCell>
@@ -70,9 +70,9 @@ export default function MentorTable({ mentors, formTemplateSchema }: Props) {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table></div></div>
 
-      <MentorDetailDialog mentor={selectedMentor} onClose={() => setSelectedMentor(null)} />
+      {/* <MentorDetailDialog mentor={selectedMentor} onClose={() => setSelectedMentor(null)} /> */}
     </>
   );
 }

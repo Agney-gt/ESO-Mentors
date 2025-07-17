@@ -44,8 +44,8 @@ export const mentorSchema = z.object({
     welcomeEmailSent: z.boolean().optional(),
     profileCompleted: z.boolean().optional(),
     formResponses: formResponsesSchema.optional(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    created_at: z.coerce.date(),
+    updated_at: z.coerce.date(),
   });
 export const menteeSchema = z.object({
     userId: z.number().int().positive().optional(),
@@ -103,3 +103,4 @@ export const formTemplateSchema = z.object({
     subscriptionPlan: z.string().optional(),
     createdAt: z.date().optional(), // typically set by DB
   });
+
