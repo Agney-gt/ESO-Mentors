@@ -88,4 +88,18 @@ export const formTemplateSchema = z.object({
     createdAt: z.string().or(z.date()).optional(), // Accepts both for flexibility
     updatedAt: z.string().or(z.date()).optional(),
   });
-  
+  export const organizationSchema = z.object({
+    id: z.number().int().optional(), // serial primary key, usually auto-generated
+    name: z.string().min(1, "Name is required"),
+    location: z.string().optional(),
+    about: z.string().optional(),
+    logo: z.string().url().optional(),
+    primaryColor: z.string().default("#3B82F6"),
+    secondaryColor: z.string().default("#8B5CF6"),
+    accentColor: z.string().default("#10B981"),
+    stripeCustomerId: z.string().optional(),
+    stripeSubscriptionId: z.string().optional(),
+    subscriptionStatus: z.string().optional(),
+    subscriptionPlan: z.string().optional(),
+    createdAt: z.date().optional(), // typically set by DB
+  });

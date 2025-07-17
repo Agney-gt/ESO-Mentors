@@ -80,7 +80,7 @@ export default function RegisterForm() {
   };
 
   const handleOAuthRegister = async () => {
-    await signIn("google", { callbackUrl: "/dash" });
+    await signIn("google", { callbackUrl: "/onboarding" });
   };
 
   return (
