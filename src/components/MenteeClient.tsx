@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { mentorSchema } from "@/lib/schema";
-import MentorProfileModal from "@/components/mentor-popup";
+import { menteeSchema } from "@/lib/schema";
+import MenteeProfileModal from "@/components/mentee-popup";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -10,11 +10,11 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button";
 
 
-type Mentor = z.infer<typeof mentorSchema>;
-export default function MentorTable({ mentors }: { mentors: z.infer<typeof mentorSchema>[] })
+type Mentees = z.infer<typeof menteeSchema>;
+export default function MenteeTable({ mentees }: { mentees: z.infer<typeof menteeSchema>[] })
 {
   const [searchQuery, setSearchQuery] = useState("");
-  const [SelectMentor, ] = useState<[z.infer<typeof mentorSchema> | null, boolean]>([null,false]);
+  const [SelectMentor, ] = useState<[z.infer<typeof menteeSchema> | null, boolean]>([null,false]);
   // const filteredMentors = [mentors].filter((mentor : z.infer<typeof mentorSchema>) =>
   //   mentor.name.toLowerCase().includes(searchQuery.toLowerCase())
   // );
@@ -40,18 +40,18 @@ export default function MentorTable({ mentors }: { mentors: z.infer<typeof mento
           <TableRow>
           <TableHead>Name</TableHead>
       <TableHead>Email</TableHead>
-      <TableHead>Organization</TableHead>
+      <TableHead>Background</TableHead>
       <TableHead>Industry</TableHead>
           <TableHead>Status</TableHead> 
         <TableHead className="text-right">Profile</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mentors.map((mentor) => (
+          {mentees.map((mentor) => (
             <TableRow key={mentor.user_id}>
               <TableCell>{mentor.name}</TableCell>
               <TableCell>{mentor.email}</TableCell>
-              <TableCell>{mentor.organization}</TableCell>
+              <TableCell>{mentor.background}</TableCell>
               <TableCell>{mentor.industry}</TableCell>
 
               
@@ -64,9 +64,7 @@ export default function MentorTable({ mentors }: { mentors: z.infer<typeof mento
                 )}
               </TableCell>
               <TableCell className="text-right">
-              <MentorProfileModal mentor={mentor as Mentor} trigger = {<Button className="w-1/2">Card</Button>} />
-             
-              
+              <MenteeProfileModal mentee={mentor as Mentees} trigger = {<Button className="w-1/2">Card</Button>} />
                 </TableCell>
             </TableRow>
           ))}

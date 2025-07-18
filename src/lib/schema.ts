@@ -48,8 +48,8 @@ export const mentorSchema = z.object({
     updated_at: z.coerce.date(),
   });
 export const menteeSchema = z.object({
-    userId: z.number().int().positive().optional(),
-    organizationId: z.number().int().positive(),
+    user_id: z.number().int().positive().optional(),
+    organization_id: z.number().int().positive(),
     name: z.string().min(1),
     email: z.string().email(),
     background: z.string().optional(),
@@ -62,9 +62,9 @@ export const menteeSchema = z.object({
     approved: z.boolean().optional(),
     welcomeEmailSent: z.boolean().optional(),
     profileCompleted: z.boolean().optional(),
-    formResponses: formResponsesSchema.optional(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    form_responses: formResponsesSchema.optional(),
+    created_at: z.coerce.date(),
+    updated_at: z.coerce.date(),
   });
 export const formFieldSchema = z.object({
     id: z.string(),
