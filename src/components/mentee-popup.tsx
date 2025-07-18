@@ -66,8 +66,9 @@ export default function MenteeProfileModal({ mentee, trigger }: MentorProfileMod
           <DialogTitle className="text-2xl font-bold">Mentor Profile</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+       
           {/* Header Section */}
+          <div className='flex flex-col'>
           <div className="flex items-start gap-4">
             <Avatar className="h-20 w-20">
               <AvatarImage src="/placeholder.svg?height=80&width=80" />
@@ -102,16 +103,17 @@ export default function MenteeProfileModal({ mentee, trigger }: MentorProfileMod
               )}
               
             </div>
+          </div>
           
         
           
           
           <Separator />
-
+              <div className='mt-4'>
           {/* Bio Section */}
           <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex flex col items-center gap-2">
                   <User className="h-5 w-5" />
                   Interests
                 </CardTitle>
@@ -198,9 +200,8 @@ export default function MenteeProfileModal({ mentee, trigger }: MentorProfileMod
             </CardContent>
           </Card>
 
-          </div>
-              
-              
+
+          </div>       
             
       </DialogContent>
     </Dialog>
