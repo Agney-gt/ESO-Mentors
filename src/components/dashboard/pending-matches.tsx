@@ -92,7 +92,10 @@ console.log("✅ Enriched Matches:", enrichedMatches);
 
             <div>
               <div className="text-sm font-semibold text-gray-700">
-               Name: <span className="text-primary">{match.mentor.name}</span>
+               Mentor Name: <span className="text-primary">{match.mentor.name}</span>
+              </div>
+              <div className="text-sm font-semibold text-gray-700">
+               Mentee Name: <span className="text-primary">{match.mentee.name}</span>
               </div>
               <div className="text-xs text-gray-500">
                 Created: {new Date(match.created_at).toLocaleString()}
@@ -107,12 +110,14 @@ console.log("✅ Enriched Matches:", enrichedMatches);
 
           {/* Match Metadata */}
           <div className="text-xs text-gray-600 space-y-1">
-            <div><strong>Mentee ID:</strong> {match.mentee_id}</div>
-            <div><strong>Mentor ID:</strong> {match.mentor_id}</div>
-            <div><strong>Industry</strong> {match.mentor.industry}</div>
+            <div><strong>Mentor Industry</strong> {match.mentor.industry}</div>
             <div>
-            <strong>Background/Company:</strong>{" "}
+            <strong>Mentor Background:</strong>{" "}
             {match.mentor?.title ? match.mentor.title : match.mentee?.background}
+          </div>
+          <div>
+            <strong>Mentee Background:</strong>{" "}
+            {match.mentee?.background}
           </div>
             <div><strong>Status:</strong> {match.status}</div>
             <div><strong>Session Scheduled:</strong> {match.session_scheduled ? "Yes" : "No"}</div>
