@@ -25,9 +25,10 @@ export default function Onboarding({ user }: { user: { email: string; organizati
   
   const { data: session, status } = useSession();
   console.log(session,status,user)
+  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const form = useForm<OnboardingFormData>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
@@ -36,7 +37,8 @@ export default function Onboarding({ user }: { user: { email: string; organizati
       about: "",
     },
   });
-
+  if (status === 'loading') return <div>Loading...</div>;
+  if (!session || !session.user) return <div className='mt-12'>Not authenticated</div>; 
   const onSubmit = async (data: OnboardingFormData) => {
     setIsLoading(true);
     try {

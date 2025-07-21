@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import Onboarding from "./component";
 
 export default function OnboardingPage() {
+  
+  
   return (
     <SessionProvider>
    

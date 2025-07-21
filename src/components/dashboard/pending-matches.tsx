@@ -47,8 +47,8 @@ if (matchError || mentorError || menteeError) {
 }
 
 // Step 3: Create lookup maps for fast access
-const mentorMap = new Map(mentors.map(m => [m.id, m]));
-const menteeMap = new Map(mentees.map(m => [m.id, m]));
+const mentorMap = new Map(mentors.map(m => [m.user_id, m]));
+const menteeMap = new Map(mentees.map(m => [m.user_id, m]));
 
   // Step 4: Enrich each match with mentor and mentee info
   const enrichedMatches = matches.map(match => {
