@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 // GET: Fetch a form template by type and ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: number; type: string } }
+  { params }: { params: Promise<{ id: number; type: string }> }
 ) {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         throw new Error("Missing Supabase environment variables");
@@ -33,7 +33,7 @@ export async function GET(
 // POST: Add a new response to a form template
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: number; type: string } }
+  { params }: { params: Promise<{ id: number; type: string }> }
 ) {
     const { id, type } = await params;
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
