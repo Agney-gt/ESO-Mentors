@@ -53,8 +53,8 @@ export function FormTemplatesList({ templates, formType }: FormTemplatesListProp
                 </p>
                 <p className="text-xs text-gray-400 mt-1">
                   Last updated:{" "}
-                  {template.updatedAt
-                    ? new Date(template.updatedAt).toLocaleDateString()
+                  {template.updated_at
+                    ? new Date(template.updated_at).toLocaleDateString()
                     : "N/A"}
                 </p>
               </div>

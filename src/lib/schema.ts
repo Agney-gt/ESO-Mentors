@@ -85,8 +85,9 @@ export const formTemplateSchema = z.object({
     name: z.string(),
     type: z.enum(["mentor", "mentee"]),
     fields: z.array(formFieldSchema),
-    createdAt: z.string().or(z.date()).optional(), // Accepts both for flexibility
-    updatedAt: z.string().or(z.date()).optional(),
+    created_at: z.string().or(z.date()).optional(), // Accepts both for flexibility
+    updated_at: z.string().or(z.date()).optional(),
+    responses: z.array(z.record(z.string(), z.any())).optional()
   });
   export const organizationSchema = z.object({
     id: z.number().int().optional(), // serial primary key, usually auto-generated
