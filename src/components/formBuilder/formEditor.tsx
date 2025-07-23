@@ -19,11 +19,78 @@ interface FormEditorProps {
   index: number;
 }
 
+const defaultMentorFields: FormField[] = [
+  { id: "name", label: "Full Name", type: "text", required: true },
+  { id: "email", label: "Email Address", type: "email", required: true },
+  { id: "title", label: "Job Title", type: "text", required: false },
+  { id: "organization", label: "Organization", type: "text", required: false },
+  { id: "bio", label: "Short Bio", type: "textarea", required: false },
+  { id: "industry", label: "Industry", type: "text", required: false },
+  { id: "expertise", label: "Areas of Expertise", type: "multiselect", options: [
+      { value: "javascript", label: "JavaScript" },
+      { value: "react", label: "React" },
+      { value: "nodejs", label: "Node.js" },
+      { value: "agile", label: "Agile" },
+      { value: "scrum", label: "Scrum" },
+      { value: "leadership", label: "Leadership" }
+    ], required: true },
+  { id: "availability", label: "Availability", type: "multiselect", options: [
+      { value: "weekdays", label: "Weekdays" },
+      { value: "weekends", label: "Weekends" },
+      { value: "mornings", label: "Mornings" },
+      { value: "evenings", label: "Evenings" }
+    ], required: true },
+  { id: "booking_link", label: "Booking Link (e.g., Calendly)", type: "textarea", required: false },
+  { id: "preferred_meeting_format", label: "Preferred Meeting Format", type: "select", options: [
+      { value: "virtual", label: "Virtual" },
+      { value: "in-person", label: "In-Person" }
+    ], required: true },
+  { id: "years_of_experience", label: "Years of Experience", type: "number", required: false },
+  { id: "goals", label: "Why do you want to be a mentor?", type: "textarea", required: true },
+  { id: "interests", label: "Topics You’re Interested in Mentoring", type: "multiselect", options: [
+      { value: "frontend", label: "Frontend" },
+      { value: "leadership", label: "Leadership" },
+      { value: "strategy", label: "Strategy" },
+      { value: "execution", label: "Execution" }
+    ], required: true },
+];
+const defaultMenteeFields: FormField[] = [
+  { id: "name", label: "Full Name", type: "text", required: true },
+  { id: "email", label: "Email Address", type: "email", required: true },
+  { id: "background", label: "Brief Background (e.g., education, work experience)", type: "textarea", required: true },
+  { id: "goals", label: "What are your goals for seeking a mentor?", type: "textarea", required: true },
+  { id: "industry", label: "Industry of Interest", type: "text", required: true },
+  { id: "interests", label: "Topics You’re Interested in Learning", type: "multiselect", options: [
+      { value: "react", label: "React" },
+      { value: "web-development", label: "Web Development" },
+      { value: "agile", label: "Agile" },
+      { value: "product-strategy", label: "Product Strategy" },
+      { value: "leadership", label: "Leadership" }
+    ], required: true },
+  { id: "availability", label: "Availability", type: "multiselect", options: [
+      { value: "weekdays", label: "Weekdays" },
+      { value: "weekends", label: "Weekends" },
+      { value: "mornings", label: "Mornings" },
+      { value: "evenings", label: "Evenings" }
+    ], required: true },
+  { id: "preferred_meeting_format", label: "Preferred Meeting Format", type: "select", options: [
+      { value: "virtual", label: "Virtual" },
+      { value: "in-person", label: "In-Person" }
+    ], required: true },
+];
+
 export default function FormEditor({ formType, forms, index }: FormEditorProps) {
   const selectedForm = forms[index];
 
   const [formName, setFormName] = useState<string>(selectedForm?.name ?? `${formType.charAt(0).toUpperCase() + formType.slice(1)} Onboarding Form`);
-  const [fields, setFields] = useState<FormField[]>(selectedForm?.fields ?? []);
+  const [fields, setFields] = useState<FormField[]>(
+    selectedForm?.fields ??
+      (formType === "mentor"
+        ? defaultMentorFields
+        : formType === "mentee"
+        ? defaultMenteeFields
+        : [])
+  );
   const [isDragging, setIsDragging] = useState(false);
   const [draggedField, setDraggedField] = useState<FormField | null>(null);
   const [saving, setSaving] = useState(false);
