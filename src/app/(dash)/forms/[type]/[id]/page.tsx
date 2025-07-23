@@ -11,7 +11,7 @@ type PageProps = {
 export default async function FormPage({ params }: PageProps) {
   const { type, id } = await params
 
-  const res = await fetch(`http://localhost:3000/api/forms/${type}/${id}/submit`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms/${type}/${id}/submit`, {
     cache: "no-store",
   })
 

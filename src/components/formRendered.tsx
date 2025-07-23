@@ -25,7 +25,7 @@ export function FormRenderer({ formType, formId, fields }: FormRendererProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    await fetch(`http://localhost:3000/api/forms/${formType}/${formId}/submit`, {
+    await fetch(`${process.env.NEXTAUTH_URL}/api/forms/${formType}/${formId}/submit`, {
         method: "POST",
         body: JSON.stringify({ response: formData }),
       });
