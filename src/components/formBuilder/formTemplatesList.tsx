@@ -64,7 +64,7 @@ export function FormTemplatesList({ templates, formType }: FormTemplatesListProp
                   variant="outline"
                   onClick={(e) => {
                     e.stopPropagation();
-                    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/forms/${template.type}/${template.id}`;
+                    const url = `${process.env.NEXTAUTH_URL}/forms/${template.type}/${template.id}`;
                     navigator.clipboard.writeText(url);
                     alert("Link copied to clipboard!");
                   }}
