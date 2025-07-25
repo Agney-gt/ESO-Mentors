@@ -32,9 +32,11 @@ export async function GET(
 
 // POST: Add a new response to a form template
 export async function POST(
+  
   req: NextRequest,
   { params }: { params: Promise<{ id: number; type: string }> }
 ) {
+  console.log("ere")
     const { id, type } = await params;
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         throw new Error("Missing Supabase environment variables");
@@ -55,13 +57,13 @@ export async function POST(
     .eq("id", id)
     .eq("type", type)
     .single();
-
+  
   if (fetchError || !existing) {
     return NextResponse.json({ error: "Form not found" }, { status: 404 });
   }
 
   const updatedResponses = [...(existing.responses || []), newResponse];
-
+  console.log(updatedResponses)
   const { error: updateError } = await supabase
     .from("ESO_form_templates")
     .update({ responses: updatedResponses })
@@ -69,6 +71,7 @@ export async function POST(
     .eq("type", type);
 
   if (updateError) {
+    console.log(updateError)
     return NextResponse.json({ error: "Failed to update responses" }, { status: 500 });
   }
 
