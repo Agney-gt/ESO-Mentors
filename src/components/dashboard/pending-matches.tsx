@@ -3,8 +3,9 @@ import { authOptions } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ApproveButton } from "@/components/approveButton";
 // import { getInitials } from "@/lib/utils";
 // import { matchSchema, mentorSchema, menteeSchema } from "@/lib/schema";
 //import { z } from "zod";
@@ -145,9 +146,8 @@ console.log("✅ Enriched Matches:", enrichedMatches);
                           </div>
 
         {/* Approve Button */}
-        <form action={`/api/matches/approve`} method="POST">
-          <Button type="submit" className="mt-2">Approve</Button>
-        </form>
+        <ApproveButton match={match} />
+
       </div>
     </div>
   );

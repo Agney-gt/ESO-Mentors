@@ -40,6 +40,7 @@ export default function InviteUsersModal({
   const [emailsText, setEmailsText] = useState("");
   const [invitationMessage, setInvitationMessage] = useState("");
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
+  console.log("selected template:",selectedTemplateId)
   const [formTemplates, setFormTemplates] = useState<z.infer<typeof formTemplateSchema>[]>([]);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -63,7 +64,7 @@ export default function InviteUsersModal({
     const fetchTemplates = async () => {
       setLoadingTemplates(true);
       try {
-        const res = await fetch(`/api/form-templates?type=${userType}&organizationId=1`);
+        const res = await fetch(`/api/form-templates?type=${userType}`);
         if (!res.ok) throw new Error("Failed to fetch templates");
         const data = await res.json();
         setFormTemplates(data);
@@ -92,6 +93,13 @@ export default function InviteUsersModal({
     setSubmitting(true);
 
     try {
+      console.log(JSON.stringify({
+        emails,
+        userType,
+        message: invitationMessage,
+        organizationId: 1,
+        formTemplateId: selectedTemplateId,
+      }))
       const res = await fetch("/api/invitations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,7 +108,7 @@ export default function InviteUsersModal({
           userType,
           message: invitationMessage,
           organizationId: 1,
-          formTemplateId: selectedTemplateId ? parseInt(selectedTemplateId) : null,
+          formTemplateId: selectedTemplateId,
         }),
       });
 

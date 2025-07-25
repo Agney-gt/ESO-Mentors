@@ -9,8 +9,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { UserPlus, ChevronDown, PlusCircle, Bell } from "lucide-react";
 import SignOutButton from "@/components/signOut";
-
+import InviteUsersModal from "@/components/invite-user";
+import { useState } from "react";
 export function PageHeader() {
+    const [isOpen, setIsOpen] = useState(false);
+    
   return (
     <>
     <div className="w-full fixed top-0 left-0 right-0 z-10 h-15 bg-white shadow">
@@ -41,11 +44,14 @@ export function PageHeader() {
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
-              <a href="#" className="flex items-center">
-                <UserPlus className="mr-2 h-4 w-4" />
-                <span>Invite Users</span>
-              </a>
-            </DropdownMenuItem>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex items-center w-full"
+        >
+          <UserPlus className="mr-2 h-4 w-4" />
+          <span>Invite Users</span>
+        </button>
+      </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
               <div className="w-full">
@@ -55,6 +61,7 @@ export function PageHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div></div>
+      <InviteUsersModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </>
   );
 }
